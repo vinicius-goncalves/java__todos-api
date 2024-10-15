@@ -29,8 +29,7 @@ public class TodoService {
     }
 
     public Optional<List<TodoEntity>> find(Query query, Sort sort) {
-        query.with(sort);
-        List<TodoEntity> queryResult = this.mongoTemplate.find(query, TodoEntity.class);
+        List<TodoEntity> queryResult = this.mongoTemplate.find(query.with(sort), TodoEntity.class);
         return !queryResult.isEmpty() ? Optional.of(queryResult) : Optional.empty();
     }
 
