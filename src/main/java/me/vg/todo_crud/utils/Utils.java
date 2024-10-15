@@ -1,9 +1,6 @@
 package me.vg.todo_crud.utils;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Sort;
 
 public class Utils {
 
@@ -15,13 +12,8 @@ public class Utils {
         return target instanceof Boolean;
     }
 
-    public static Set<Map.Entry<String, String>> getRequestParams(HttpServletRequest request) {
-        List<String> keysToExclude = new ArrayList<>(Arrays.asList("sortBy", "orderBy"));
-
-        return request.getParameterMap().entrySet().stream()
-                .filter(e -> !keysToExclude.contains(e.getKey()))
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue()[0]))
-                .entrySet();
-
+    public static Sort createSort(String sortBy, String orderBy) {
+        Sort sort = Sort.by(sortBy.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, orderBy);
+        return sort;
     }
 }
